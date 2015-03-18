@@ -55,7 +55,7 @@ def dump_output():
   def dt_handler(obj):
       return obj.isoformat() if hasattr(obj, 'isoformat') else None
 
-  json_str = json.dumps(g.out_items[::-1], indent=2, default=dt_handler)
+  json_str = json.dumps(g.out_items, indent=2, default=dt_handler)
   with open(path('out_data.js'), 'w') as f:
     f.write('var out_data = ' + json_str)
   os.system('open -g {}'.format(path('render_output.html')))
@@ -63,16 +63,23 @@ def dump_output():
 
 if __name__ == '__main__':
 
-  # Example 1:  Simple bar graph.
+    # Example 1:  Simple bar graph.
 
-  days = []
-  for i in range(10):
-    days.append(datetime.date.today() + datetime.timedelta(days=i))
-  graph(zip(days, range(len(days))), show_bars=True)
+    graph([(0,0), (1,1), (2,4)], show_bars=True)
 
-  # Example 2:  Multiple lists in one graph, with a tooltip for each point.
+    # Example 2:  Works with dates.  Can label axes and draw linear regression.
 
-  l1 = [(0,0), (1,1), (2,2), (3,3)]
-  l2 = [(0,0), (1,1), (2,4), (3,9)]
-  labels = ['foo', 'bar', 'baz', 'yep']
-  graph([l1, l2], show_lines=True, xaxis='x', yaxis='y', labels=labels)
+    import datetime, random
+
+    days = [datetime.date.today() + datetime.timedelta(days=i) for i in range(10)]
+    values = [i + 2 - random.random() * 4 for i in range(10)]
+    graph(
+      zip(days, values), show_bars=True, xaxis='Day', yaxis='Values',
+      draw_regression=True)
+
+    # Example 2:  Multiple lists in one graph, with a tooltip for each point.
+
+    l1 = [(0,0), (1,1), (2,2), (3,3)]
+    l2 = [(0,0), (1,1), (2,4), (3,9)]
+    labels = ['foo', 'bar', 'baz', 'yep']
+    graph([l1, l2], labels=labels, show_lines=True)
