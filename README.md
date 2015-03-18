@@ -19,7 +19,7 @@
       zip(days, values), show_bars=True, xaxis='Day', yaxis='Values',
       draw_regression=True)
 
-    # Example 2:  Multiple lists in one graph, with a tooltip for each point.
+    # Example 3:  Multiple lists in one graph, with a tooltip for each point.
 
     l1 = [(0,0), (1,1), (2,2), (3,3)]
     l2 = [(0,0), (1,1), (2,4), (3,9)]
