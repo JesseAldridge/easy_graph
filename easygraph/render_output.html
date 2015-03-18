@@ -32,18 +32,18 @@ function plot_data(graph_data) {
   var g = graph_data
   var seriess = g.points, name = g.name, xlabel = g.xaxis, ylabel = g.yaxis,
       labels = g.labels, series_index_tooltip = g.series_index_tooltip,
-      show_bars = g.show_bars, bar_width = g.bar_width, css = g.css, 
+      show_bars = g.show_bars, bar_width = g.bar_width, css = g.css,
       show_lines = g.show_lines,
       num_digits = g.num_digits || 1, radius = g.radius || .5,
       draw_regression = g.draw_regression,
       regression_line_width = g.regression_line_width || 4,
       colors = g.colors || [
-        '#aa0000', '#00aa00', '#0000aa', '#888800', '#008888', 
+        '#aa0000', '#00aa00', '#0000aa', '#888800', '#008888',
         '#880088', '#4488aa', '#aa8844', '#666622']
 
   // Convert strings to dates.  Figure bar_width.
 
-  var use_time_mode = false  
+  var use_time_mode = false
   var min_diff = null
   for(var iseries = 0; iseries < seriess.length; iseries++) {
     var series = seriess[iseries]
@@ -78,7 +78,7 @@ function plot_data(graph_data) {
   }
 
   if(!use_time_mode)
-    xaxis_obj.tickFormatter = function(val, axis) { 
+    xaxis_obj.tickFormatter = function(val, axis) {
       return val.toFixed(num_digits)
     }
 
@@ -98,7 +98,7 @@ function plot_data(graph_data) {
       grid: { hoverable: true },
       yaxis: {
         axisLabel: ylabel,
-        tickFormatter: function(val, axis) { 
+        tickFormatter: function(val, axis) {
           return val.toFixed(num_digits)
         }
       },
@@ -147,7 +147,7 @@ function plot_data(graph_data) {
     }
     else {
       $("#tooltip").remove();
-      previousPoint = null;            
+      previousPoint = null;
     }
   });
 }
@@ -184,8 +184,8 @@ function draw_regression_line(plot, series, color, line_width) {
   var off0 = plot.pointOffset({ x: first_date, y: m * first_date + b})
   var off1 = plot.pointOffset({ x: last_date, y: m * last_date + b })
   var ctx = plot.getCanvas().getContext("2d");
-  ctx.setStrokeColor(color)
-  ctx.setLineWidth(line_width)
+  ctx.strokeStyle = color
+  ctx.lineWidth = line_width
   ctx.beginPath();
   ctx.moveTo(off0.left, off0.top);
   ctx.lineTo(off1.left, off1.top);
@@ -193,7 +193,7 @@ function draw_regression_line(plot, series, color, line_width) {
 }
 
 function linear_regression(xs, ys) {
-    // Get the slope and y-intercept of the best-fit line for the points.  
+    // Get the slope and y-intercept of the best-fit line for the points.
 
     var sum_x = 0, sum_y = 0, sum_xy = 0, sum_xx = 0, count = 0, x = 0, y = 0;
     if (xs.length != ys.length)
@@ -216,24 +216,3 @@ function linear_regression(xs, ys) {
 }
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
