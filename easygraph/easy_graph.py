@@ -1,10 +1,30 @@
-import random, os, json, atexit, datetime
+import random, os, json, atexit, datetime, urllib2
 
-easy_graph_path = os.path.expanduser('~/Dropbox/jca/easy_graph/')
+# Download static site files if necessary.
+
+easy_graph_path = os.path.expanduser('~/easygraph')
+if not os.path.exists(easy_graph_path):
+  os.mkdir(easy_graph_path)
+
+for filename in ('jquery.flot.axislabels.js', 'render_output.html'):
+  path = os.path.join(easy_graph_path, filename)
+  if os.path.exists(path):
+    continue
+
+  response = urllib2.urlopen(
+    'https://raw.githubusercontent.com/JesseAldridge/easy_graph/master/easygraph/' +
+    filename)
+  with open(path, 'w') as f:
+    print 'downloading:', path
+    f.write(response.read())
+
+# Accumulate output items in global list.
 
 class g:
   out_items = []
   registered = False
+
+# Can write raw html between graphs.
 
 def html(html):
   g.out_items.append({'html':html})
@@ -43,23 +63,16 @@ def dump_output():
 
 if __name__ == '__main__':
 
+  # Example 1:  Simple bar graph.
+
   days = []
   for i in range(10):
     days.append(datetime.date.today() + datetime.timedelta(days=i))
   graph(zip(days, range(len(days))), show_bars=True)
-  graph(zip(days, range(len(days))))
 
-  # Make a graph from a bunch of fake objects.
+  # Example 2:  Multiple lists in one graph, with a tooltip for each point.
 
-  # class Foo:
-  #   def __init__(self):
-  #     self.x, self.y = random.random(), random.random()
-  #     self.list_ = [random.random() * 100 for _ in range(100)]
-  #     self.date = datetime.datetime.now()
-
-  # foos1 = []
-  # foos2 = [Foo() for _ in range(10)]
-  # foos3 = [Foo() for _ in range(10)]
-  # graph(
-  #   [[(foo.x, foo.y) for foo in foos] for foos in (foos1, foos2, foos3)],
-  #   xaxis='x', yaxis='y', labels=range(len(foos)))
+  l1 = [(0,0), (1,1), (2,2), (3,3)]
+  l2 = [(0,0), (1,1), (2,4), (3,9)]
+  labels = ['foo', 'bar', 'baz', 'yep']
+  graph([l1, l2], show_lines=True, xaxis='x', yaxis='y', labels=labels)
