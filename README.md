@@ -1,5 +1,5 @@
 
-Install:  `sudo pip install easygraph`
+`sudo pip install easygraph`
 
 -------------------------------
 
