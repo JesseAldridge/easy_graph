@@ -20,18 +20,17 @@ body {min-width: 1500px}
 <script id="graph_templ" type="text/x-jquery-tmpl">
   <div class='${name} graph'>
   </div>
+  <span>foo</span>
 </script>
 
 <script>
-
 
 function plot_data(graph_data) {
   var graph = $("#graph_templ").tmpl(graph_data)
   graph.appendTo("body")
 
   var g = graph_data
-  var seriess = g.points, name = g.name, xlabel = g.xaxis, ylabel = g.yaxis,
-      labels = g.labels, series_index_tooltip = g.series_index_tooltip,
+  var seriess = g.points, name = g.name, xlabel = g.xaxis, ylabel = g.yaxis, labels = g.labels,
       show_bars = g.show_bars, bar_width = g.bar_width, css = g.css,
       show_lines = g.show_lines,
       num_digits = g.num_digits || 1, radius = g.radius || .5,
@@ -110,8 +109,7 @@ function plot_data(graph_data) {
   var plot = $.plot(graph, seriess, options);
   if(draw_regression)
     for(var is = 0; is < seriess.length; is++)
-      draw_regression_line(
-        plot, seriess[is], colors[is], regression_line_width);
+      draw_regression_line(plot, seriess[is], colors[is], regression_line_width);
 
   function showTooltip(x, y, contents) {
     $('<div id="tooltip">' + contents + '</div>').css( {
@@ -128,7 +126,6 @@ function plot_data(graph_data) {
 
   var previousPoint = null;
   graph.bind("plothover", function (event, pos, item) {
-
     if(!labels)
       return
 
@@ -136,13 +133,14 @@ function plot_data(graph_data) {
     $(graph.find("#y")).text(pos.y.toFixed(2));
 
     if (item) {
-      var label_index = (
-        series_index_tooltip ? item.seriesIndex : item.dataIndex)
-
-      if (previousPoint != label_index) {
-        previousPoint = label_index
+      if(
+        !previousPoint ||
+        previousPoint[0] != item.seriesIndex ||
+        previousPoint[1] != item.dataIndex
+      ) {
+        previousPoint = [item.seriesIndex, item.dataIndex]
         $("#tooltip").remove();
-        showTooltip(item.pageX, item.pageY, labels[label_index]);
+        showTooltip(item.pageX, item.pageY, labels[item.seriesIndex][item.dataIndex]);
       }
     }
     else {

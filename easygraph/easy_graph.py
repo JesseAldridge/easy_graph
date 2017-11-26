@@ -81,5 +81,6 @@ if __name__ == '__main__':
 
     l1 = [(0,0), (1,1), (2,2), (3,3)]
     l2 = [(0,0), (1,1), (2,4), (3,9)]
-    labels = ['foo', 'bar', 'baz', 'yep']
-    graph([l1, l2], labels=labels, show_lines=True)
+    labels1 = ['foo', 'bar', 'baz', 'yep']
+    labels2 = ['some', 'stuff', 'that', 'works']
+    graph([l1, l2], labels=[labels1, labels2], show_lines=True)
