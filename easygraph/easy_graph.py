@@ -43,6 +43,8 @@ def graph(points, **kw):
 
   if not multi_series:
     points = [points]
+    if 'labels' in kw:
+      kw['labels'] = [kw['labels']]
   kw['points'] = points
   g.out_items.append(kw)
 
@@ -75,7 +77,7 @@ if __name__ == '__main__':
     values = [i + 2 - random.random() * 4 for i in range(10)]
     graph(
       zip(days, values), show_bars=True, xaxis='Day', yaxis='Values',
-      draw_regression=True)
+      draw_regression=True, labels = [str(i) for i in range(10)])
 
     # Example 3:  Multiple lists in one graph, with a tooltip for each point.
 
