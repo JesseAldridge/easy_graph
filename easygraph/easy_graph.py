@@ -64,25 +64,24 @@ def dump_output():
 
 
 if __name__ == '__main__':
+  # Example 1:  Simple bar graph.
 
-    # Example 1:  Simple bar graph.
+  graph([(0,0), (1,1), (2,4)], show_bars=True)
 
-    graph([(0,0), (1,1), (2,4)], show_bars=True)
+  # Example 2:  Works with dates.  Can label axes and draw linear regression.
 
-    # Example 2:  Works with dates.  Can label axes and draw linear regression.
+  import datetime, random
 
-    import datetime, random
+  days = [datetime.date.today() + datetime.timedelta(days=i) for i in range(10)]
+  values = [i + 2 - random.random() * 4 for i in range(10)]
+  graph(
+    zip(days, values), show_bars=True, xaxis='Day', yaxis='Values',
+    draw_regression=True, labels = [str(i) for i in range(10)])
 
-    days = [datetime.date.today() + datetime.timedelta(days=i) for i in range(10)]
-    values = [i + 2 - random.random() * 4 for i in range(10)]
-    graph(
-      zip(days, values), show_bars=True, xaxis='Day', yaxis='Values',
-      draw_regression=True, labels = [str(i) for i in range(10)])
+  # Example 3:  Multiple lists in one graph, with a tooltip for each point.
 
-    # Example 3:  Multiple lists in one graph, with a tooltip for each point.
-
-    l1 = [(0,0), (1,1), (2,2), (3,3)]
-    l2 = [(0,0), (1,1), (2,4), (3,9)]
-    labels1 = ['foo', 'bar', 'baz', 'yep']
-    labels2 = ['some', 'stuff', 'that', 'works']
-    graph([l1, l2], labels=[labels1, labels2], show_lines=True)
+  l1 = [(0,0), (1,1), (2,2), (3,3)]
+  l2 = [(0,0), (1,1), (2,4), (3,9)]
+  labels1 = ['foo', 'bar', 'baz', 'yep']
+  labels2 = ['some', 'stuff', 'that', 'works']
+  graph([l1, l2], labels=[labels1, labels2], show_lines=True)
